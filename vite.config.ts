@@ -2,12 +2,10 @@ import { defineConfig } from 'vite';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import { resolve } from 'path';
 import react from '@vitejs/plugin-react';
-import UnoCSS from 'unocss/vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    UnoCSS(),
     react(),
     //  使用 svg 图标
     createSvgIconsPlugin({
