@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { Button, Cell, Divider, Image, Input, Toast } from 'react-vant';
 import { Icon } from '@iconify/react';
+import { postLoginAPI, postRegisterAPI } from '@/api/user';
+import { useUserStore } from '@/store/user';
 import moduleCss from './index.module.less';
 
 /**
@@ -8,16 +10,43 @@ import moduleCss from './index.module.less';
  */
 type LoginType = 'login' | 'register';
 
-const Login = () => {
+const Login: FC = () => {
   const [username, setUsername] = useState(''); // 账号
   const [password, setPassword] = useState(''); // 密码
 
   // 登录和注册类型
   const [type, setType] = useState<LoginType>('login');
 
+  // 获取全局仓库中用户状态
+  const setToken = useUserStore((state) => state.setToken);
+
   // 用户登录和注册
-  const onClickSubmit = () => {
-    console.log('first');
+  const onClickSubmit = async () => {
+    if (!username) {
+      Toast.info('请输入账号');
+      return;
+    }
+    if (!password) {
+      Toast.info('请输入密码');
+      return;
+    }
+
+    try {
+      // 判断是否是登录
+      if (type === 'login') {
+        const { data } = await postLoginAPI({ username, password });
+        // 保存用户token
+        setToken(data.token);
+        Toast.success('登录成功');
+      } else {
+        await postRegisterAPI({ username, password });
+        Toast.success('注册成功');
+        // 注册成功切换到登录
+        setType('login');
+      }
+    } catch (error: any) {
+      Toast.fail(error.msg);
+    }
   };
 
   // 其他登录
