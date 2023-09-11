@@ -6,7 +6,7 @@ const App = () => {
   return (
     <HashRouter>
       <Router />
-      <NavBar showNav={true} />
+      <NavBar />
     </HashRouter>
   );
 };

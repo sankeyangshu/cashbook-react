@@ -1,0 +1,53 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  background-image: linear-gradient(217deg, #6fb9f8, #3daaf85e, #49d3fc1a, #3fd3ff00);
+
+  /* 头部 logo */
+  .header {
+    width: 100px;
+    height: 100px;
+    margin: 100px auto 10px;
+  }
+  .tab {
+    padding: 30px 30px 20px;
+    color: #597fe7;
+    > span {
+      margin-right: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      &.active {
+        padding-bottom: 6px;
+        font-size: 20px;
+        border-bottom: 2px solid #597fe7;
+      }
+    }
+  }
+  .form {
+    padding: 0 6px;
+    :global {
+      .rv-cell {
+        background-color: transparent;
+        &::after {
+          border-top: none;
+        }
+      }
+    }
+    .btn {
+      padding: 0 16px;
+      margin-top: 20px;
+    }
+  }
+  .login-other {
+    padding: 0 22px;
+    margin-top: 30px;
+    .other-icon {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
