@@ -1,0 +1,36 @@
+.popupType {
+  height: 500px;
+  background-color: #f5f5f5;
+  .content {
+    padding: 20px;
+    .all {
+      display: inline-block;
+      padding: 12px 20px;
+      font-size: 16px;
+      color: rgb(0 0 0 / 90%);
+      background-color: #fff;
+    }
+    .title {
+      margin: 10px 0;
+      font-size: 14px;
+      color: rgb(0 0 0 / 90%);
+    }
+    .item {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      p {
+        width: calc(~'(100% - 20px) / 3');
+        padding: 12px 0;
+        margin-bottom: 10px;
+        font-size: 16px;
+        text-align: center;
+        background-color: #fff;
+      }
+    }
+    .active {
+      color: #fff;
+      background-color: #597fe7 !important;
+    }
+  }
+}

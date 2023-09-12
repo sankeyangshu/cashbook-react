@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { PullRefresh, List } from 'react-vant';
-import { billType } from '@/types/bill';
+import { PullRefresh, List, Empty } from 'react-vant';
+import { billPopupType, billType } from '@/types/bill';
 import { getBillListAPI } from '@/api/bill';
 import dayjs from 'dayjs';
 import BillItem from '@/components/BillItem';
+import BillPopupType from '@/components/BillPopupType';
 import mCss from './index.module.less';
 
 const Home = () => {
@@ -14,9 +15,17 @@ const Home = () => {
   const [billList, setBillList] = useState<billType[]>([]); // 账单列表
   const [finished, setFinished] = useState(false); // 是否加载完成
 
+  const billTypeRef = useRef<any>(null); // 账单类型ref
+  const [currentSelect, setCurrentSelect] = useState<Partial<billPopupType>>({}); // 当前筛选类型
+
   // 获取账单列表
   const getBillList = async () => {
-    const { data } = await getBillListAPI({ page, page_size: 10, date: currentTime });
+    const { data } = await getBillListAPI({
+      page,
+      page_size: 10,
+      date: currentTime,
+      type_id: currentSelect.id || 'all',
+    });
     if (page === 1) {
       setBillList(data.list);
     } else {
@@ -27,7 +36,7 @@ const Home = () => {
 
   useEffect(() => {
     getBillList(); // 初始化
-  }, [page]);
+  }, [page, currentSelect]);
 
   // 下拉刷新
   const onRefreshData = async () => {
@@ -42,7 +51,6 @@ const Home = () => {
 
   // 上拉加载新数据
   const onLoadRefreshData = async () => {
-    console.log('first');
     // 判断数据是否加载完毕
     if (page < totalPage) {
       setPage(page + 1);
@@ -51,10 +59,26 @@ const Home = () => {
     }
   };
 
+  // 显示账单类型
+  const onClickShowBillPopup = () => {
+    billTypeRef.current && billTypeRef.current.show();
+  };
+
+  // 筛选账单类型
+  const onSelectBillType = (item: billPopupType) => {
+    // 只有选择了不同的类型才会重新请求
+    if (item.id !== currentSelect.id) {
+      setFinished(false);
+      // 触发刷新列表，将分页重制为 1
+      setPage(1);
+      setCurrentSelect(item);
+    }
+  };
+
   return (
     <div className={mCss.home}>
       <div className={mCss.header}>
-        <div className={mCss.type}>
+        <div className={mCss.type} onClick={onClickShowBillPopup}>
           <span className={mCss.title}>类型</span>
           <Icon icon="grommet-icons:apps-rounded" fontSize={20} color="#ffffff" />
         </div>
@@ -72,14 +96,19 @@ const Home = () => {
         </div>
       </div>
       <div className={mCss.content}>
-        <PullRefresh onRefresh={onRefreshData}>
-          <List finished={finished} onLoad={onLoadRefreshData} finishedText="没有更多了">
-            {billList.map((item, index) => (
-              <BillItem bill={item} key={index} />
-            ))}
-          </List>
-        </PullRefresh>
+        {billList.length > 0 ? (
+          <PullRefresh onRefresh={onRefreshData}>
+            <List finished={finished} onLoad={onLoadRefreshData} finishedText="没有更多了">
+              {billList.map((item, index) => (
+                <BillItem bill={item} key={index} />
+              ))}
+            </List>
+          </PullRefresh>
+        ) : (
+          <Empty description="暂无账单" />
+        )}
       </div>
+      <BillPopupType ref={billTypeRef} onSelect={onSelectBillType} />
     </div>
   );
 };

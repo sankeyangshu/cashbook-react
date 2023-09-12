@@ -26,6 +26,7 @@ export interface billListParamsType {
   page: number;
   page_size: number;
   date: string;
+  type_id: string | number;
 }
 
 /**
@@ -36,4 +37,14 @@ export interface billListType {
   totalExpense: number;
   totalIncome: number;
   totalPage: number;
+}
+
+/**
+ * 账单类型弹窗
+ */
+export interface billPopupType {
+  id: number;
+  name: string;
+  type: string;
+  user_id: number;
 }
