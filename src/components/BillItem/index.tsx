@@ -42,11 +42,11 @@ const BillItem: FC<billPropType> = ({ bill }) => {
           <div className={mCss.money}>
             <span>
               <img src="//s.yezgea02.com/1615953405599/zhi%402x.png" alt="支" />
-              <text>¥{expense.toFixed(2)}</text>
+              <span className={mCss.num}>¥{expense.toFixed(2)}</span>
             </span>
             <span>
               <img src="//s.yezgea02.com/1615953405599/shou%402x.png" alt="收" />
-              <text>¥{income.toFixed(2)}</text>
+              <span className={mCss.num}>¥{income.toFixed(2)}</span>
             </span>
           </div>
         </div>
