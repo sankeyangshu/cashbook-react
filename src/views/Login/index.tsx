@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, Cell, Divider, Image, Input, Toast } from 'react-vant';
 import { Icon } from '@iconify/react';
 import { postLoginAPI, postRegisterAPI } from '@/api/user';
@@ -20,6 +21,9 @@ const Login: FC = () => {
   // 获取全局仓库中用户状态
   const setToken = useUserStore((state) => state.setToken);
 
+  // 路由对象
+  const navigate = useNavigate();
+
   // 用户登录和注册
   const onClickSubmit = async () => {
     if (!username) {
@@ -37,6 +41,7 @@ const Login: FC = () => {
         const { data } = await postLoginAPI({ username, password });
         // 保存用户token
         setToken(data.token);
+        navigate('/');
         Toast.success('登录成功');
       } else {
         await postRegisterAPI({ username, password });

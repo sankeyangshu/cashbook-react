@@ -18,7 +18,7 @@ service.interceptors.request.use(
     const token = useUserStore.getState().token;
 
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = token;
     }
 
     //设置loading
@@ -51,7 +51,7 @@ service.interceptors.response.use(
     if (status === 200) {
       // 接口网络请求成功，关闭等待提示
       Toast.clear();
-      if (data.code === 0) {
+      if (data.code === 200) {
         // 接口请求结果正确
         return data;
       } else {
