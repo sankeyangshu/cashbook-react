@@ -6,6 +6,7 @@ import { getBillListAPI } from '@/api/bill';
 import dayjs from 'dayjs';
 import BillItem from '@/components/BillItem';
 import BillPopupType from '@/components/BillPopupType';
+import BillPopupDate from '@/components/BillPopupDate';
 import mCss from './index.module.less';
 
 const Home = () => {
@@ -13,10 +14,14 @@ const Home = () => {
   const [page, setPage] = useState(1); // 分页
   const [totalPage, setTotalPage] = useState(0); // 分页总数
   const [billList, setBillList] = useState<billType[]>([]); // 账单列表
+  const [totalExpense, setTotalExpense] = useState(0); // 总支出
+  const [totalIncome, setTotalIncome] = useState(0); // 总收入
   const [finished, setFinished] = useState(false); // 是否加载完成
 
   const billTypeRef = useRef<any>(null); // 账单类型ref
   const [currentSelect, setCurrentSelect] = useState<Partial<billPopupType>>({}); // 当前筛选类型
+
+  const billDateRef = useRef<any>(null); // 月份筛选ref
 
   // 获取账单列表
   const getBillList = async () => {
@@ -31,12 +36,14 @@ const Home = () => {
     } else {
       setBillList(billList.concat(data.list));
     }
+    setTotalExpense(Number(data.totalExpense.toFixed(2)));
+    setTotalIncome(Number(data.totalIncome.toFixed(2)));
     setTotalPage(data.totalPage);
   };
 
   useEffect(() => {
     getBillList(); // 初始化
-  }, [page, currentSelect]);
+  }, [page, currentSelect, currentTime]);
 
   // 下拉刷新
   const onRefreshData = async () => {
@@ -75,6 +82,20 @@ const Home = () => {
     }
   };
 
+  // 显示日期筛选弹窗
+  const onClickShowDatePopup = () => {
+    billDateRef.current && billDateRef.current.show();
+  };
+
+  // 筛选日期
+  const onSelectDate = (item: string) => {
+    if (item !== currentTime) {
+      setFinished(false);
+      setPage(1);
+      setCurrentTime(item);
+    }
+  };
+
   return (
     <div className={mCss.home}>
       <div className={mCss.header}>
@@ -83,15 +104,15 @@ const Home = () => {
           <Icon icon="grommet-icons:apps-rounded" fontSize={20} color="#ffffff" />
         </div>
         <div className={mCss.dataWrap}>
-          <div className={mCss.date}>
-            2022-06
+          <div className={mCss.date} onClick={onClickShowDatePopup}>
+            {currentTime}
             <Icon icon="ep:arrow-down-bold" style={{ marginLeft: 7 }} />
           </div>
           <div className={mCss.expense}>
-            总支出：¥<span>200</span>
+            总支出：¥<span>{totalExpense}</span>
           </div>
           <div className={mCss.expense}>
-            总收入：¥<span>500</span>
+            总收入：¥<span>{totalIncome}</span>
           </div>
         </div>
       </div>
@@ -109,6 +130,7 @@ const Home = () => {
         )}
       </div>
       <BillPopupType ref={billTypeRef} onSelect={onSelectBillType} />
+      <BillPopupDate ref={billDateRef} mode="year-month" onSelect={onSelectDate} />
     </div>
   );
 };
