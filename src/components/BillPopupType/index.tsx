@@ -1,4 +1,4 @@
-import { useState, forwardRef, useEffect } from 'react';
+import { useState, forwardRef, useEffect, useImperativeHandle } from 'react';
 import { Popup } from 'react-vant';
 import { getBillTypeListAPI } from '@/api/bill';
 import { billPopupType } from '@/types/bill';
@@ -8,7 +8,15 @@ interface billPropType {
   onSelect: (item: billPopupType) => void;
 }
 
-const BillPopupType = forwardRef<any, billPropType>(({ onSelect }, ref) => {
+/**
+ * 弹窗节点类型
+ */
+export interface billPopupRefType {
+  show: () => void;
+  close: () => void;
+}
+
+const BillPopupType = forwardRef<billPopupRefType, billPropType>(({ onSelect }, ref) => {
   const [isShowPopup, setIsShowPopup] = useState(false);
   const [expenseType, setExpenseType] = useState<billPopupType[]>([]); // 支出类型标签
   const [incomeType, setIncomeType] = useState<billPopupType[]>([]); // 收入类型标签
@@ -28,18 +36,17 @@ const BillPopupType = forwardRef<any, billPropType>(({ onSelect }, ref) => {
     getBillTypeList();
   }, []);
 
-  if (ref) {
-    (ref as any).current = {
-      // 外部可以通过 ref.current.show 来控制组件的显示
-      show: () => {
-        setIsShowPopup(true);
-      },
-      // 外部可以通过 ref.current.close 来控制组件的隐藏
-      close: () => {
-        setIsShowPopup(false);
-      },
-    };
-  }
+  // 在子组件中使用 useImperativeHandle 自定义引用对象
+  useImperativeHandle(ref, () => ({
+    // 在引用对象中定义方法
+    show: () => {
+      // 子组件的逻辑代码
+      setIsShowPopup(true);
+    },
+    close: () => {
+      setIsShowPopup(false);
+    },
+  }));
 
   // 选择账单类型
   const onClickBillType = (item: billPopupType | { id: string }) => {
