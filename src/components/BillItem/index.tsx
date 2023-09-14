@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
-import { billType } from '@/types/bill';
+import { useNavigate } from 'react-router-dom';
+import { billItemType, billType } from '@/types/bill';
 import { Cell } from 'react-vant';
 import { IconList } from '@/utils';
 import dayjs from 'dayjs';
@@ -13,6 +14,7 @@ type billPropType = {
 const BillItem: FC<billPropType> = ({ bill }) => {
   const [income, setIncome] = useState(0); // 收入
   const [expense, setExpense] = useState(0); // 支出
+  const navigateTo = useNavigate(); // 路由
 
   // 计算当日收支总和
   useEffect(() => {
@@ -33,6 +35,11 @@ const BillItem: FC<billPropType> = ({ bill }) => {
       }, 0);
     setExpense(_expense);
   }, [bill.bills]);
+
+  // 查看详情
+  const goToDetail = (item: billItemType) => {
+    navigateTo(`/detail?id=${item.id}`);
+  };
 
   return (
     <>
@@ -73,6 +80,7 @@ const BillItem: FC<billPropType> = ({ bill }) => {
                   {dayjs(Number(item.date)).format('HH:mm')} {item.remark ? `| ${item.remark}` : ''}
                 </div>
               }
+              onClick={() => goToDetail(item)}
             ></Cell>
           ))}
       </div>

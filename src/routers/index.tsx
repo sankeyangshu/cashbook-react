@@ -3,6 +3,7 @@ import Home from '@/views/Home';
 import Data from '@/views/Data';
 import User from '@/views/User';
 import Login from '@/views/Login';
+import Detail from '@/views/Detail';
 
 /**
  * 公共路由
@@ -27,6 +28,11 @@ export const constantRoutes: RouteObject[] = [
     path: '/login',
     id: 'Login',
     element: <Login />,
+  },
+  {
+    path: '/detail',
+    id: 'Detail',
+    element: <Detail />,
   },
 ];
 

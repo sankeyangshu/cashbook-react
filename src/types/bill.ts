@@ -45,8 +45,8 @@ export interface billListType {
 export interface billPopupType {
   id: number;
   name: string;
-  type: string;
-  user_id: number;
+  type?: string;
+  user_id?: number;
 }
 
 /**
@@ -59,4 +59,18 @@ export interface billAddType {
   date: number; // 日期传时间戳
   pay_type: number; // 账单类型传 1 或 2
   remark: string; // 备注
+}
+
+/**
+ * 编辑账单类型
+ */
+export interface billUpdateType extends billAddType {
+  id: number;
+}
+
+/**
+ * 账单详情类型
+ */
+export interface billDetailType extends billItemType {
+  user_id: number;
 }
