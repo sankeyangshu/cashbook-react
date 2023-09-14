@@ -5,6 +5,7 @@ import {
   billListType,
   billPopupType,
   billUpdateType,
+  totalAllDataType,
 } from '@/types/bill';
 import http from '@/utils/request';
 
@@ -16,6 +17,7 @@ const api = {
   billDetail: '/api/bill/detail', // 账单详情
   billDelete: '/api/bill/delete', // 删除账单
   billUpdate: '/api/bill/update', // 修改账单
+  billTotalData: '/api/bill/data', // 账单总数据
 };
 
 /**
@@ -69,4 +71,13 @@ export function removeBillDetailAPI(data: { id: number | string }) {
  */
 export function updateBillDetailAPI(data: billUpdateType) {
   return http.post(api.billUpdate, data);
+}
+
+/**
+ * @description: 获取账单总数据
+ * @param {object} data 账单时间
+ * @return 账单总数据
+ */
+export function getBillTotalDetailAPI(data: { date: string }) {
+  return http.get<totalAllDataType>(api.billTotalData, data);
 }

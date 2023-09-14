@@ -2,7 +2,7 @@ import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 're
 import { Input, NumberKeyboard, Popup, Toast } from 'react-vant';
 import { ArrowDown } from '@react-vant/icons';
 import { getBillTypeListAPI, addBillAPI, updateBillDetailAPI } from '@/api/bill';
-import { billPopupType, billDetailType } from '@/types/bill';
+import { billPopupType, billDetailType, payInterface } from '@/types/bill';
 import { IconList } from '@/utils';
 import BillPopupDate, { billDateRefType } from '@/components/BillPopupDate';
 import CustomIcon from '@/components/CustomIcon';
@@ -21,9 +21,6 @@ interface billPopupAddType {
   onReload: () => Promise<void>;
   billDetail?: billDetailType;
 }
-
-// 收入或支出类型
-type payInterface = 'income' | 'expense';
 
 const BillPopupAdd = forwardRef<billAddRefType, billPopupAddType>(
   ({ onReload, billDetail }, ref) => {

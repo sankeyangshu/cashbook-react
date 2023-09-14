@@ -74,3 +74,27 @@ export interface billUpdateType extends billAddType {
 export interface billDetailType extends billItemType {
   user_id: number;
 }
+
+/**
+ * 收入或支出类型
+ */
+export type payInterface = 'income' | 'expense';
+
+/**
+ * 总账单收入或支出类型
+ */
+export interface totalDataType {
+  number: number;
+  pay_type: number;
+  type_id: number;
+  type_name: string;
+}
+
+/**
+ * 总账单类型
+ */
+export interface totalAllDataType {
+  total_data: totalDataType[];
+  total_expense: string;
+  total_income: string;
+}
