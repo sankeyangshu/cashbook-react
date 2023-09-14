@@ -48,3 +48,15 @@ export interface billPopupType {
   type: string;
   user_id: number;
 }
+
+/**
+ * 新增账单类型
+ */
+export interface billAddType {
+  amount: string; // 账单金额小数点后保留两位
+  type_id: number; // 账单种类id
+  type_name: string; // 账单种类名称
+  date: number; // 日期传时间戳
+  pay_type: number; // 账单类型传 1 或 2
+  remark: string; // 备注
+}

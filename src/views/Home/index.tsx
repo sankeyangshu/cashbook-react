@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { PullRefresh, List, Empty } from 'react-vant';
+import { PullRefresh, List, Empty, FloatingBall } from 'react-vant';
 import { billPopupType, billType } from '@/types/bill';
 import { getBillListAPI } from '@/api/bill';
+import BillPopupType, { billPopupRefType } from '@/components/BillPopupType';
+import BillPopupDate, { billDateRefType } from '@/components/BillPopupDate';
+import BillPopupAdd, { billAddRefType } from '@/components/BillPopupAdd';
 import dayjs from 'dayjs';
 import BillItem from '@/components/BillItem';
-import BillPopupType from '@/components/BillPopupType';
-import BillPopupDate from '@/components/BillPopupDate';
+import CustomIcon from '@/components/CustomIcon';
 import mCss from './index.module.less';
 
 const Home = () => {
@@ -18,10 +20,12 @@ const Home = () => {
   const [totalIncome, setTotalIncome] = useState(0); // 总收入
   const [finished, setFinished] = useState(false); // 是否加载完成
 
-  const billTypeRef = useRef<any>(null); // 账单类型ref
+  const billTypeRef = useRef<billPopupRefType>(null); // 账单类型ref
   const [currentSelect, setCurrentSelect] = useState<Partial<billPopupType>>({}); // 当前筛选类型
 
-  const billDateRef = useRef<any>(null); // 月份筛选ref
+  const billDateRef = useRef<billDateRefType>(null); // 日期筛选ref
+
+  const billAddRef = useRef<billAddRefType>(null); // 新增账单ref
 
   // 获取账单列表
   const getBillList = async () => {
@@ -76,7 +80,7 @@ const Home = () => {
     // 只有选择了不同的类型才会重新请求
     if (item.id !== currentSelect.id) {
       setFinished(false);
-      // 触发刷新列表，将分页重制为 1
+      // 触发刷新列表，将分页重置为 1
       setPage(1);
       setCurrentSelect(item);
     }
@@ -94,6 +98,11 @@ const Home = () => {
       setPage(1);
       setCurrentTime(item);
     }
+  };
+
+  // 新增账单
+  const onClickAddBill = () => {
+    billAddRef.current && billAddRef.current.show();
   };
 
   return (
@@ -131,6 +140,12 @@ const Home = () => {
       </div>
       <BillPopupType ref={billTypeRef} onSelect={onSelectBillType} />
       <BillPopupDate ref={billDateRef} mode="year-month" onSelect={onSelectDate} />
+      <BillPopupAdd ref={billAddRef} onReload={getBillList} />
+      <FloatingBall>
+        <div className={mCss.addIcon} onClick={onClickAddBill}>
+          <CustomIcon name="tianjia" />
+        </div>
+      </FloatingBall>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 
 interface billPropDate {
   onSelect: (item: string) => void;
-  mode: 'date' | 'year-month';
+  mode?: 'date' | 'year-month';
 }
 
 /**
@@ -63,6 +63,9 @@ const BillPopupDate = forwardRef<billDateRefType, billPropDate>(
             }
             if (type === 'month') {
               return `${val}月`;
+            }
+            if (type === 'day') {
+              return `${val}日`;
             }
             return val;
           }}
