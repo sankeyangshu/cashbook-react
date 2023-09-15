@@ -1,0 +1,49 @@
+.user {
+  min-height: 100%;
+  background-color: #f5f5f5;
+  .head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 160px;
+    padding: 24px;
+    background: url('//s.yezgea02.com/1615971681107/%E4%BD%8D%E5%9B%BE%402x.png') no-repeat;
+    background-size: cover;
+    .info {
+      display: flex;
+      flex-direction: column;
+      > span {
+        color: #fff;
+      }
+      span:nth-of-type(1) {
+        align-self: baseline;
+        padding: 2px 10px;
+        margin-bottom: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        background-color: rgb(89 127 231 / 100%);
+        border-radius: 20px;
+      }
+      span:nth-of-type(2) {
+        font-size: 14px;
+      }
+    }
+  }
+  .content {
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    width: 90%;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 3px 2px 20px 10px rgb(0 0 0 / 10%);
+    transform: translateX(-50%);
+  }
+  .logout {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    width: 90%;
+    transform: translateX(-50%);
+  }
+}

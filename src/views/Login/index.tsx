@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Cell, Divider, Image, Input, Toast } from 'react-vant';
 import { Icon } from '@iconify/react';
-import { postLoginAPI, postRegisterAPI } from '@/api/user';
+import { postLoginAPI, postRegisterAPI, getUserInfoAPI } from '@/api/user';
 import { useUserStore } from '@/store/user';
 import moduleCss from './index.module.less';
 
@@ -19,7 +19,7 @@ const Login: FC = () => {
   const [type, setType] = useState<LoginType>('login');
 
   // 获取全局仓库中用户状态
-  const setToken = useUserStore((state) => state.setToken);
+  const [setToken, setUserInfo] = useUserStore((state) => [state.setToken, state.setUserInfo]);
 
   // 路由对象
   const navigate = useNavigate();
@@ -41,6 +41,9 @@ const Login: FC = () => {
         const { data } = await postLoginAPI({ username, password });
         // 保存用户token
         setToken(data.token);
+        // 获取用户信息
+        const { data: userInfo } = await getUserInfoAPI();
+        setUserInfo(userInfo);
         navigate('/');
         Toast.success('登录成功');
       } else {

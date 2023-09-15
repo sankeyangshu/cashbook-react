@@ -1,10 +1,11 @@
-import { loginDataType } from '@/types/user';
+import { loginDataType, userInfoType } from '@/types/user';
 import http from '@/utils/request';
 
 // api接口
 const api = {
   login: '/api/user/login', // 用户登录接口
   register: '/api/user/register', // 用户注册接口
+  userInfo: '/api/user/get_userinfo', // 用户信息
 };
 
 /**
@@ -23,4 +24,12 @@ export function postLoginAPI(data: loginDataType) {
  */
 export function postRegisterAPI(data: loginDataType) {
   return http.post(api.register, data);
+}
+
+/**
+ * @description: 获取用户信息
+ * @return 用户信息
+ */
+export function getUserInfoAPI() {
+  return http.get<userInfoType>(api.userInfo);
 }
