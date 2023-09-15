@@ -17,6 +17,9 @@ const NavBar = () => {
 
   useEffect(() => {
     setShowNav(needShowNav.includes(pathname));
+    if (needShowNav.includes(pathname) && pathname !== activeKey) {
+      setActiveKey(pathname);
+    }
   }, [pathname]);
 
   // 当前选中的导航

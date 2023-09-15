@@ -1,49 +1,47 @@
 .user {
+  height: 100vh;
   min-height: 100%;
   background-color: #f5f5f5;
   .head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+    width: 100%;
     height: 160px;
-    padding: 24px;
-    background: url('//s.yezgea02.com/1615971681107/%E4%BD%8D%E5%9B%BE%402x.png') no-repeat;
-    background-size: cover;
-    .info {
-      display: flex;
-      flex-direction: column;
-      > span {
-        color: #fff;
+  }
+  .info {
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    width: 85%;
+    padding: 15px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 3px 2px 20px 10px rgb(0 0 0 / 10%);
+    transform: translateX(-50%);
+    .avatar {
+      width: 60px;
+      height: 60px;
+      img {
+        border-radius: 8px;
       }
-      span:nth-of-type(1) {
-        align-self: baseline;
-        padding: 2px 10px;
+    }
+    .right {
+      margin-left: 10px;
+      .nickname {
         margin-bottom: 6px;
         font-size: 16px;
         font-weight: bold;
-        background-color: rgb(89 127 231 / 100%);
-        border-radius: 20px;
+        color: #597fe7;
       }
-      span:nth-of-type(2) {
+      .signature {
         font-size: 14px;
+        color: #666;
       }
     }
   }
   .content {
-    position: absolute;
-    top: 120px;
-    left: 50%;
     width: 90%;
-    overflow: hidden;
-    border-radius: 10px;
-    box-shadow: 3px 2px 20px 10px rgb(0 0 0 / 10%);
-    transform: translateX(-50%);
-  }
-  .logout {
-    position: absolute;
-    bottom: 70px;
-    left: 50%;
-    width: 90%;
-    transform: translateX(-50%);
+    margin: 70px auto 0;
   }
 }
